@@ -6,11 +6,13 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.UnstableDefault
+import kotlinx.serialization.json.*
 import net.mamoe.mirai.message.GroupMessageEvent
 import net.sourceforge.pinyin4j.PinyinHelper
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType
 import utils.moshi
+import java.io.FileReader
 import java.net.URLEncoder
 import kotlin.math.roundToInt
 
@@ -22,6 +24,25 @@ object WeatherAction : CmdAction {
         return "/天气 城市"
     }
 
+    private var isLoad = false
+
+    private val map = HashMap<Int, JsonObject>()
+
+    private fun loadJson() {
+        if (isLoad) {
+            return
+        }
+        isLoad = true
+        val text = FileReader("city.list.json").readText()
+        val jsonElement = Json.parseJson(text).jsonArray
+
+        for (element in jsonElement) {
+            element.jsonObject["id"]?.int?.let {
+                map.putIfAbsent(it, element.jsonObject)
+            }
+        }
+    }
+
     @UnstableDefault
     @ImplicitReflectionSerializer
     override suspend fun invoke(event: GroupMessageEvent, params: String) {
@@ -30,6 +51,11 @@ object WeatherAction : CmdAction {
             return
         }
 
+        if (params.startsWith("query")) {
+            val cmd = params.removePrefix("query")
+        }
+
+        loadJson()
 
         val weather = try {
 

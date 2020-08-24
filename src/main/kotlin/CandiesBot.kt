@@ -1,6 +1,7 @@
 import actions.group.HelpAction
 import actions.group.at.AutoReplyAction
 import actions.group.on.OnSenderTalkAction
+import actions.group.starts.GirlAction
 import actions.group.starts.dart.PubCmdAction
 import actions.group.starts.weather.WeatherAction
 import kotlinx.serialization.json.Json
@@ -45,6 +46,7 @@ private val cmdActions = arrayOf(
     HelpAction,
 //    PubCmdAction,
     WeatherAction,
+    GirlAction,
 )
 
 private val atActions = arrayOf(
