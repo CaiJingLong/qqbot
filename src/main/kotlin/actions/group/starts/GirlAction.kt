@@ -31,18 +31,23 @@ object GirlAction : CmdAction {
 
         val file = File("/tmp/${System.currentTimeMillis()}")
 
-        val byteArray = httpClient.get<ByteArray>(url)
-        file.writeBytes(byteArray)
+        try {
+            val byteArray = httpClient.get<ByteArray>(url)
+            file.writeBytes(byteArray)
 
-        var count = 0;
-        while (count < 10) {
-            try {
-                val image = file.uploadAsImage(event.group)
-                event.reply(image)
-                break
-            } catch (e: Exception) {
-                count++
+            var count = 0;
+            while (count < 10) {
+                try {
+                    val image = file.uploadAsImage(event.group)
+                    event.reply(image)
+                    break
+                } catch (e: Exception) {
+                    count++
+                }
             }
+        } finally {
+            file.delete()
         }
+
     }
 }
