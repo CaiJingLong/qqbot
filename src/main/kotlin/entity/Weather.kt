@@ -1,8 +1,5 @@
 package entity
 
-import kotlinx.serialization.*
-
-@Serializable
 data class Weather(
     val coord: CoordBean,
     val weather: List<WeatherBean>,
@@ -12,8 +9,6 @@ data class Weather(
     val wind: WindBean,
     val clouds: CloudsBean,
     val dt: Int,
-    val sys: SysBean,
-    val timezone: Int,
     val id: Int,
     val name: String,
     val cod: Int
@@ -41,17 +36,10 @@ data class Weather(
     )
 
     data class WindBean(
-        val speed: Int,
+        val speed: Double,
         val deg: Int
     )
 
     data class CloudsBean(val all: Int)
 
-    data class SysBean(
-        val type: Int,
-        val id: Int,
-        val country: String,
-        val sunrise: Int,
-        val sunset: Int
-    )
 }

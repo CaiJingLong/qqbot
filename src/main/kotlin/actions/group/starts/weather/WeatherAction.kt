@@ -11,6 +11,7 @@ import net.sourceforge.pinyin4j.PinyinHelper
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType
 import utils.moshi
+import java.net.URLEncoder
 import kotlin.math.roundToInt
 
 object WeatherAction : CmdAction {
@@ -29,24 +30,31 @@ object WeatherAction : CmdAction {
             return
         }
 
-        val hanyuPinyinOutputFormat = HanyuPinyinOutputFormat().apply {
-            toneType = HanyuPinyinToneType.WITHOUT_TONE
+
+        val weather = try {
+
+            val url = if (params.trim().toLongOrNull() != null) {
+                id(params.trim().toLong())
+            } else {
+                city(params)
+            }
+            println("尝试请求 $url")
+            val str = httpClient.get<String>(url)
+            val adapter = moshi.adapter(Weather::class.java)
+            adapter.fromJson(str) ?: return
+        } catch (e: Exception) {
+            e.printStackTrace()
+            try {
+                val url = city(convertToChinesePinyin(params))
+                println("尝试请求 $url")
+                val str = httpClient.get<String>(url)
+                val adapter = moshi.adapter(Weather::class.java)
+                adapter.fromJson(str) ?: return
+            } catch (e: Exception) {
+                event.quoteReply("没找到对应城市信息")
+                return
+            }
         }
-        val cityPinyin = PinyinHelper.toHanYuPinyinString(params, hanyuPinyinOutputFormat, "", true)
-
-
-        val url = URLBuilder(parameters = ParametersBuilder().apply {
-            this["q"] = cityPinyin
-            this["appid"] = "cd2bfe940bb257a9d3c94310a45cf9f3"
-            this["lang"] = "zh_cn"
-        })
-            .takeFrom("https://api.openweathermap.org/data/2.5/weather")
-            .build()
-
-        val adapter = moshi.adapter(Weather::class.java)
-
-        val str = httpClient.get<String>(url)
-        val weather = adapter.fromJson(str) ?: return
 
         val s = StringBuilder()
         val weatherBean = weather.weather[0]
@@ -59,6 +67,40 @@ object WeatherAction : CmdAction {
 
         event.quoteReply(s.trim().toString())
     }
+
+    private fun convertToChinesePinyin(city: String): String {
+
+        val hanyuPinyinOutputFormat = HanyuPinyinOutputFormat().apply {
+            toneType = HanyuPinyinToneType.WITHOUT_TONE
+        }
+        return PinyinHelper.toHanYuPinyinString(city, hanyuPinyinOutputFormat, "", true)
+    }
+
+    private fun city(cityName: String): Url {
+        val url = URLBuilder(parameters = ParametersBuilder().apply {
+            this["q"] = URLEncoder.encode(cityName, "utf8")
+            this["appid"] = "cd2bfe940bb257a9d3c94310a45cf9f3"
+            this["lang"] = "zh_cn"
+
+        })
+            .takeFrom("https://api.openweathermap.org/data/2.5/weather")
+            .build()
+        return url
+    }
+
+
+    private fun id(id: Long): Url {
+        val url = URLBuilder(parameters = ParametersBuilder().apply {
+            this["id"] = id.toString()
+            this["appid"] = "cd2bfe940bb257a9d3c94310a45cf9f3"
+            this["lang"] = "zh_cn"
+
+        })
+            .takeFrom("https://api.openweathermap.org/data/2.5/weather")
+            .build()
+        return url
+    }
+
 
     private fun Double.fixTemp(): String {
         return (this - 272.15).roundToInt().toString()
