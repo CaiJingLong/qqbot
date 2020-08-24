@@ -1,14 +1,15 @@
-package actions
+package actions.group
 
+import actions.interfaces.CmdAction
 import net.mamoe.mirai.message.GroupMessageEvent
 
-object HelpAction : Action {
+object HelpAction : CmdAction {
 
     override val prefix = "/help"
 
-    val actions = ArrayList<Action>()
+    val actions = ArrayList<CmdAction>()
 
-    fun registerAction(action: Action) {
+    fun registerAction(action: CmdAction) {
         actions.add(action)
     }
 

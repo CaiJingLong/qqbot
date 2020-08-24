@@ -1,11 +1,11 @@
-package actions.dart
+package actions.group.starts.dart
 
 import HTMLParser
-import actions.Action
+import actions.interfaces.CmdAction
 import net.mamoe.mirai.message.GroupMessageEvent
 import java.net.URL
 
-object PubAction : Action {
+object PubCmdAction : CmdAction {
 
     override val prefix: String = "/pub"
 
@@ -52,6 +52,6 @@ object PubAction : Action {
     }
 
     override fun helperText(): String {
-        return "/pub 包名"
+        return "/pub 包名: 查看pub 包的信息"
     }
 }

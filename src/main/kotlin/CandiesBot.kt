@@ -1,7 +1,9 @@
-import actions.HelpAction
-import actions.dart.PubAction
+import actions.group.HelpAction
+import actions.group.at.AutoReplyAction
+import actions.group.on.OnSenderTalkAction
+import actions.group.starts.dart.PubCmdAction
+import actions.group.starts.weather.WeatherAction
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonBuilder
 import kotlinx.serialization.json.long
 import net.mamoe.mirai.Bot
 import net.mamoe.mirai.alsoLogin
@@ -39,16 +41,21 @@ suspend fun main() {
 /**
  * 在这里提供所有的action
  */
-private val actions = arrayOf(
+private val cmdActions = arrayOf(
     HelpAction,
-    PubAction
+//    PubCmdAction,
+    WeatherAction,
+)
+
+private val atActions = arrayOf(
+    AutoReplyAction
 )
 
 /**
  * 注册方法
  */
 private fun registerActions() {
-    for (action in actions) {
+    for (action in cmdActions) {
         HelpAction.registerAction(action)
     }
 }
@@ -65,10 +72,20 @@ private fun registerActions() {
  */
 fun Bot.messageDSL() {
 
-
     subscribeGroupMessages {
         for (action in HelpAction.actions) {
             startsWith(action.prefix, onEvent = action::invoke)
         }
+
+        for (action in atActions) {
+            atBot {
+                action.invoke(this)
+            }
+        }
+
+        always {
+//            OnSenderTalkAction.invoke(this)
+        }
+
     }
 }
