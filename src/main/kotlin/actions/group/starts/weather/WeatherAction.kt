@@ -26,21 +26,24 @@ object WeatherAction : CmdAction {
 
     private var isLoad = false
 
-    private val map = HashMap<Int, JsonObject>()
+    private val map = HashMap<String, Long>()
 
     private fun loadJson() {
         if (isLoad) {
             return
         }
         isLoad = true
-//        val text = FileReader("city.list.json").readText()
-//        val jsonElement = Json.parseJson(text).jsonArray
-//
-//        for (element in jsonElement) {
-//            element.jsonObject["id"]?.int?.let {
-//                map.putIfAbsent(it, element.jsonObject)
-//            }
-//        }
+        val text = FileReader("city.list.json").readText()
+        val jsonElement = Json.parseJson(text).jsonArray
+
+        for (element in jsonElement) {
+            element.jsonObject["name"]?.primitive?.content?.let {
+                val id = element.jsonObject["id"]?.double?.toLong()
+                if (id != null) {
+                    map.putIfAbsent(it.toLowerCase(), id)
+                }
+            }
+        }
     }
 
     @UnstableDefault
@@ -51,19 +54,26 @@ object WeatherAction : CmdAction {
             return
         }
 
-        if (params.startsWith("query")) {
-            val cmd = params.removePrefix("query")
-        }
+        val cityName = params.trim().toLowerCase()
+
+//        if (params.startsWith("query")) {
+//            val cmd = params.removePrefix("query")
+//        }
 
         loadJson()
 
+        println("map 中共有 ${map.count()}个元素")
+
         val weather = try {
 
-            val url = if (params.trim().toLongOrNull() != null) {
-                id(params.trim().toLong())
-            } else {
-                city(params)
-            }
+            val url =
+                if (map[cityName] != null) {
+                    id(map[cityName]!!)
+                } else if (cityName.toLongOrNull() != null) {
+                    id(cityName.toLong())
+                } else {
+                    city(params)
+                }
             println("尝试请求 $url")
             val str = httpClient.get<String>(url)
             val adapter = moshi.adapter(Weather::class.java)
@@ -104,7 +114,7 @@ object WeatherAction : CmdAction {
 
     private fun city(cityName: String): Url {
         val url = URLBuilder(parameters = ParametersBuilder().apply {
-            this["q"] = URLEncoder.encode(cityName, "utf8")
+            this["q"] = URLEncoder.encode(cityName, "utf8").replace("+", "%20")
             this["appid"] = "cd2bfe940bb257a9d3c94310a45cf9f3"
             this["lang"] = "zh_cn"
 
