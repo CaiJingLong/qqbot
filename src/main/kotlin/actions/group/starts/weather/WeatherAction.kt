@@ -33,14 +33,14 @@ object WeatherAction : CmdAction {
             return
         }
         isLoad = true
-        val text = FileReader("city.list.json").readText()
-        val jsonElement = Json.parseJson(text).jsonArray
-
-        for (element in jsonElement) {
-            element.jsonObject["id"]?.int?.let {
-                map.putIfAbsent(it, element.jsonObject)
-            }
-        }
+//        val text = FileReader("city.list.json").readText()
+//        val jsonElement = Json.parseJson(text).jsonArray
+//
+//        for (element in jsonElement) {
+//            element.jsonObject["id"]?.int?.let {
+//                map.putIfAbsent(it, element.jsonObject)
+//            }
+//        }
     }
 
     @UnstableDefault
