@@ -1,27 +1,29 @@
 import actions.group.HelpAction
+import actions.group.at.AutoReplyAction
+import actions.group.cmd.admin.KickAction
 import actions.group.cmd.admin.MuteAction
 import actions.group.cmd.admin.MuteAllAction
 import actions.group.cmd.admin.UnMuteAction
-import actions.group.at.AutoReplyAction
-import actions.group.cmd.admin.KickAction
 import actions.group.cmd.common.GirlAction
 import actions.group.cmd.common.weather.WeatherAction
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.long
+import entity.LoginConfig
 import net.mamoe.mirai.Bot
 import net.mamoe.mirai.alsoLogin
 import net.mamoe.mirai.event.*
 import net.mamoe.mirai.join
+import utils.moshi
 import java.io.FileReader
 
+
 suspend fun main() {
+
     val json = FileReader("config.json").use {
-        Json.parseJson(it.readText()).jsonObject
-    }
+//        Json.decodeFromString<LoginConfig>(it.readText())
+        val adapter = moshi.adapter(LoginConfig::class.java)
+        adapter.fromJson(it.readText())
+    } ?: throw RuntimeException("登录失败")
 
-    val qq = json["qq"]?.long
-
-    val password = json["password"]?.primitive?.content
+    val (qq, password) = json
 
     checkNotNull(qq)
     checkNotNull(password)

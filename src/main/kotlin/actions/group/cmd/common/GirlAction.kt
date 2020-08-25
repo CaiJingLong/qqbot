@@ -1,10 +1,13 @@
 package actions.group.cmd.common
 
 import actions.interfaces.CmdAction
+import com.squareup.moshi.Moshi
+import entity.Girl
 import io.ktor.client.request.*
 import kotlinx.serialization.json.Json
 import net.mamoe.mirai.message.GroupMessageEvent
 import net.mamoe.mirai.message.uploadAsImage
+import utils.moshi
 import java.io.File
 
 object GirlAction : CmdAction {
@@ -22,7 +25,10 @@ object GirlAction : CmdAction {
     override suspend fun invoke(event: GroupMessageEvent, params: String) {
         val url = try {
             val response = httpClient.get<String>("https://gank.io/api/v2/random/category/Girl/type/Girl/count/1")
-            Json.parseJson(response).jsonObject["data"]?.jsonArray?.get(0)?.jsonObject?.get("url")?.primitive?.content
+
+            val adapter = moshi.adapter(Girl::class.java)
+            val girl = adapter.fromJson(response)
+            girl?.data?.firstOrNull()?.url
                 ?: return
         } catch (e: Exception) {
             return

@@ -48,7 +48,7 @@ object UnMuteAction : AdminCmdAction {
             }.toList()
 
         if (members.isEmpty()) {
-            event.quoteReply("不知道要禁言谁")
+            event.quoteReply("无法确定要解禁何人")
             return
         }
 
@@ -62,7 +62,7 @@ object UnMuteAction : AdminCmdAction {
 
         event.quoteReply(buildMessageChain {
             add(text)
-            add("已被禁言")
+            add("已被解禁")
         })
 
         return

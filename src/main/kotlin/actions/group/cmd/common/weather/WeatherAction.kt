@@ -1,11 +1,11 @@
 package actions.group.cmd.common.weather
 
 import actions.interfaces.CmdAction
+import com.squareup.moshi.Types
+import entity.City
 import entity.Weather
 import io.ktor.client.request.*
 import io.ktor.http.*
-import kotlinx.serialization.ImplicitReflectionSerializer
-import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.*
 import net.mamoe.mirai.message.GroupMessageEvent
 import net.sourceforge.pinyin4j.PinyinHelper
@@ -14,7 +14,9 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinToneType
 import utils.moshi
 import java.io.FileReader
 import java.net.URLEncoder
+import javax.smartcardio.Card
 import kotlin.math.roundToInt
+
 
 object WeatherAction : CmdAction {
     override val prefix: String
@@ -28,27 +30,21 @@ object WeatherAction : CmdAction {
 
     private val map = HashMap<String, Long>()
 
-    @UnstableDefault
     private fun loadJson() {
         if (isLoad) {
             return
         }
         isLoad = true
         val text = FileReader("city.list.json").readText()
-        val jsonElement = Json.parseJson(text).jsonArray
+        val type = Types.newParameterizedType(MutableList::class.java, City::class.java)
+        val adapter = moshi.adapter<List<City>>(type)
+        val list = adapter.fromJson(text)
 
-        for (element in jsonElement) {
-            element.jsonObject["name"]?.primitive?.content?.let {
-                val id = element.jsonObject["id"]?.double?.toLong()
-                if (id != null) {
-                    map.putIfAbsent(it.toLowerCase(), id)
-                }
-            }
+        list?.forEach {
+            map.putIfAbsent(it.name, it.id.toDouble().toLong())
         }
     }
 
-    @UnstableDefault
-    @ImplicitReflectionSerializer
     override suspend fun invoke(event: GroupMessageEvent, params: String) {
         if (params.trim().isBlank()) {
             event.quoteReply("请输入城市名称")

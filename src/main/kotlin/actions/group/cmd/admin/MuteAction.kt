@@ -15,6 +15,7 @@ object MuteAction : AdminCmdAction {
         return listOf(
             "/小黑屋",
             "/闭嘴",
+            "/禁言",
         )
     }
 
