@@ -1,6 +1,7 @@
 package actions.interfaces
 
 import net.mamoe.mirai.message.GroupMessageEvent
+import utils.moshi
 
 /**
  * 继承这个方法
@@ -24,5 +25,6 @@ interface CmdAction : GroupAction {
      * 帮助命令的文本
      */
     fun helperText(): String
+
 
 }

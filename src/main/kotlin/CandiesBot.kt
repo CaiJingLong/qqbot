@@ -5,11 +5,7 @@ import actions.group.cmd.admin.MuteAction
 import actions.group.cmd.admin.MuteAllAction
 import actions.group.cmd.admin.UnMuteAction
 import actions.group.cmd.common.GirlAction
-import actions.group.cmd.common.alapi.AcgAction
-import actions.group.cmd.common.alapi.DogAction
-import actions.group.cmd.common.alapi.QinghuaAction
-import actions.group.cmd.common.alapi.SoulAction
-import actions.group.cmd.common.weather.WeatherAction
+import actions.group.cmd.common.alapi.*
 import entity.LoginConfig
 import net.mamoe.mirai.Bot
 import net.mamoe.mirai.alsoLogin
@@ -22,7 +18,6 @@ import java.io.FileReader
 suspend fun main() {
 
     val json = FileReader("config.json").use {
-//        Json.decodeFromString<LoginConfig>(it.readText())
         val adapter = moshi.adapter(LoginConfig::class.java)
         adapter.fromJson(it.readText())
     } ?: throw RuntimeException("登录失败")
@@ -60,6 +55,7 @@ private val cmdActions = arrayOf(
     QinghuaAction,
     DogAction,
     AcgAction,
+    WeiboHotAction,
 
     /// 管理相关的
     MuteAllAction,
