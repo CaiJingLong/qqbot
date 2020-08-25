@@ -5,7 +5,7 @@ import net.mamoe.mirai.message.GroupMessageEvent
 
 object HelpAction : CmdAction {
 
-    override val prefix = "/help"
+    override val prefix = "/h"
 
     val actions = ArrayList<CmdAction>()
 
