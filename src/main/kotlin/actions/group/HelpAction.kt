@@ -23,7 +23,7 @@ object HelpAction : CmdAction {
         sb.appendLine("以下为机器人使用帮助:")
         sb.appendLine("/h 显示本帮助")
         for (action in actions) {
-            if (!showHelperText()) {
+            if (!action.showHelperText()) {
                 continue
             }
             if (action != this) {
