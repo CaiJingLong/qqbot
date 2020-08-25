@@ -5,7 +5,7 @@ import okhttp3.Request
 
 object OKHttp {
 
-    private val client = OkHttpClient.Builder()
+    val client = OkHttpClient.Builder()
         .build()
 
     fun getString(url: String): String {
@@ -17,5 +17,19 @@ object OKHttp {
             .execute()
 
         return response.body!!.string()
+    }
+
+    fun getLocationUrl(url: String): String {
+        val newClient = client.newBuilder()
+            .followRedirects(false)
+            .build()
+
+        val req = Request.Builder()
+            .url(url)
+            .build()
+        val response = newClient.newCall(req)
+            .execute()
+
+        return response.header("Location", "")!!
     }
 }

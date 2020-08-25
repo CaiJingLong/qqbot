@@ -9,6 +9,7 @@ import net.mamoe.mirai.message.GroupMessageEvent
 import net.mamoe.mirai.message.uploadAsImage
 import utils.moshi
 import java.io.File
+import java.net.URL
 
 object GirlAction : CmdAction {
     override val prefix: String

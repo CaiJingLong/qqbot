@@ -5,6 +5,7 @@ import actions.group.cmd.admin.MuteAction
 import actions.group.cmd.admin.MuteAllAction
 import actions.group.cmd.admin.UnMuteAction
 import actions.group.cmd.common.GirlAction
+import actions.group.cmd.common.alapi.AcgAction
 import actions.group.cmd.common.alapi.DogAction
 import actions.group.cmd.common.alapi.QinghuaAction
 import actions.group.cmd.common.alapi.SoulAction
@@ -58,6 +59,7 @@ private val cmdActions = arrayOf(
     SoulAction,
     QinghuaAction,
     DogAction,
+    AcgAction,
 
     /// 管理相关的
     MuteAllAction,
