@@ -12,6 +12,14 @@ interface CmdAction : GroupAction {
      */
     val prefix: String
 
+    fun prefixAlias(): List<String> {
+        return emptyList()
+    }
+
+    fun showHelperText(): Boolean {
+        return true
+    }
+
     /**
      * 帮助命令的文本
      */

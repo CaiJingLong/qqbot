@@ -1,4 +1,4 @@
-package actions.group.admin
+package actions.group.cmd.admin
 
 import net.mamoe.mirai.message.GroupMessageEvent
 

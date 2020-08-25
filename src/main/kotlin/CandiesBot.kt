@@ -1,13 +1,10 @@
 import actions.group.HelpAction
-import actions.group.admin.MuteAction
-import actions.group.admin.MuteAllAction
-import actions.group.admin.UnMuteAction
+import actions.group.cmd.admin.MuteAction
+import actions.group.cmd.admin.MuteAllAction
+import actions.group.cmd.admin.UnMuteAction
 import actions.group.at.AutoReplyAction
-import actions.group.on.OnSenderTalkAction
-import actions.group.starts.GirlAction
-import actions.group.starts.dart.PubCmdAction
-import actions.group.starts.weather.WeatherAction
-import kotlinx.serialization.UnstableDefault
+import actions.group.cmd.common.GirlAction
+import actions.group.cmd.common.weather.WeatherAction
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.long
 import net.mamoe.mirai.Bot
@@ -84,6 +81,12 @@ fun Bot.messageDSL() {
     subscribeGroupMessages {
         for (action in HelpAction.actions) {
             startsWith(action.prefix, onEvent = action::invoke)
+
+            if (action.prefixAlias().isNotEmpty()) {
+                for (prefixAlias in action.prefixAlias()) {
+                    startsWith(prefixAlias, onEvent = action::invoke)
+                }
+            }
         }
 
         for (action in atActions) {

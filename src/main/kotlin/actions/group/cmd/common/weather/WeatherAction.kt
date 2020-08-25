@@ -1,4 +1,4 @@
-package actions.group.starts.weather
+package actions.group.cmd.common.weather
 
 import actions.interfaces.CmdAction
 import entity.Weather

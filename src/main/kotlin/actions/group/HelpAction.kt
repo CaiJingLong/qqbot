@@ -23,8 +23,15 @@ object HelpAction : CmdAction {
         sb.appendLine("以下为机器人使用帮助:")
         sb.appendLine("/h 显示本帮助")
         for (action in actions) {
+            if (!showHelperText()) {
+                continue
+            }
             if (action != this) {
                 sb.appendLine(action.helperText())
+                if (action.prefixAlias().isNotEmpty()) {
+                    sb.appendLine("   别名: ${action.prefixAlias().joinToString(",")}")
+                }
+                sb.appendLine()
             }
         }
 

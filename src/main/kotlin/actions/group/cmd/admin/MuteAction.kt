@@ -1,4 +1,4 @@
-package actions.group.admin
+package actions.group.cmd.admin
 
 import net.mamoe.mirai.contact.isOperator
 import net.mamoe.mirai.message.GroupMessageEvent
@@ -10,6 +10,13 @@ import net.mamoe.mirai.message.data.content
 object MuteAction : AdminCmdAction {
     override val prefix: String
         get() = "/mute"
+
+    override fun prefixAlias(): List<String> {
+        return listOf(
+            "/小黑屋",
+            "/闭嘴",
+        )
+    }
 
     override fun helperText(): String {
         return """/mute <QQ号> 时长(秒)"""
@@ -82,15 +89,20 @@ object MuteAction : AdminCmdAction {
             try {
                 event.message.toMutableList()
                     .filterIsInstance<PlainText>()
-                    .first {
-                        it.content.toIntOrNull() != null
-                    }.content.toIntOrNull() ?: 600
+                    .toMutableList()
+                    .apply {
+                        removeAt(0)
+                    }
+                    .firstOrNull()?.content?.trim()?.toIntOrNull()
+                    ?: 600
             } catch (e: Exception) {
                 60 * 10
             }
 
+        println("second = $second")
+
         val text = members.joinToString {
-            it.display
+            "${it.display}(${it.target})"
         }
 
         for (member in members) {

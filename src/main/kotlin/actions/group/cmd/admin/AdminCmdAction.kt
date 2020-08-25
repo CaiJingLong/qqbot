@@ -1,4 +1,4 @@
-package actions.group.admin
+package actions.group.cmd.admin
 
 import actions.interfaces.CmdAction
 import net.mamoe.mirai.contact.isOperator

@@ -1,10 +1,9 @@
-package actions.group.starts
+package actions.group.cmd.common
 
 import actions.interfaces.CmdAction
 import io.ktor.client.request.*
 import kotlinx.serialization.json.Json
 import net.mamoe.mirai.message.GroupMessageEvent
-import net.mamoe.mirai.message.sendAsImageTo
 import net.mamoe.mirai.message.uploadAsImage
 import java.io.File
 
@@ -14,6 +13,10 @@ object GirlAction : CmdAction {
 
     override fun helperText(): String {
         return "/小姐姐 随机发一个小姐姐照片, 图片来源: Gank.io(https://gank.io/api/v2/random/category/Girl/type/Girl/count/1)"
+    }
+
+    override fun showHelperText(): Boolean {
+        return false
     }
 
     override suspend fun invoke(event: GroupMessageEvent, params: String) {

@@ -1,4 +1,4 @@
-package actions.group.starts.dart
+package actions.group.cmd.common.dart
 
 import HTMLParser
 import actions.interfaces.CmdAction
