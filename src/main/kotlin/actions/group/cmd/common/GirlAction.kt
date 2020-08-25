@@ -22,6 +22,11 @@ object GirlAction : CmdAction {
         return false
     }
 
+    private val allowList = arrayOf<Long>(
+        262990989,
+        410496936,
+    )
+
     override suspend fun invoke(event: GroupMessageEvent, params: String) {
         val url = try {
             val response = httpClient.get<String>("https://gank.io/api/v2/random/category/Girl/type/Girl/count/1")
@@ -34,7 +39,7 @@ object GirlAction : CmdAction {
             return
         }
 
-        if (event.sender.id != 262990989L) {
+        if (!allowList.contains(event.sender.id)) {
             return
         }
 
