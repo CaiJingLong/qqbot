@@ -5,6 +5,9 @@ import actions.group.cmd.admin.MuteAction
 import actions.group.cmd.admin.MuteAllAction
 import actions.group.cmd.admin.UnMuteAction
 import actions.group.cmd.common.GirlAction
+import actions.group.cmd.common.alapi.DogAction
+import actions.group.cmd.common.alapi.QinghuaAction
+import actions.group.cmd.common.alapi.SoulAction
 import actions.group.cmd.common.weather.WeatherAction
 import entity.LoginConfig
 import net.mamoe.mirai.Bot
@@ -48,9 +51,15 @@ suspend fun main() {
  */
 private val cmdActions = arrayOf(
     HelpAction,
-//    PubCmdAction,
+
+    // 日常小功能
     WeatherAction,
     GirlAction,
+    SoulAction,
+    QinghuaAction,
+    DogAction,
+
+    /// 管理相关的
     MuteAllAction,
     MuteAction,
     UnMuteAction,

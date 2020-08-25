@@ -6,7 +6,6 @@ import entity.City
 import entity.Weather
 import io.ktor.client.request.*
 import io.ktor.http.*
-import kotlinx.serialization.json.*
 import net.mamoe.mirai.message.GroupMessageEvent
 import net.sourceforge.pinyin4j.PinyinHelper
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat
@@ -14,7 +13,6 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinToneType
 import utils.moshi
 import java.io.FileReader
 import java.net.URLEncoder
-import javax.smartcardio.Card
 import kotlin.math.roundToInt
 
 

@@ -20,7 +20,7 @@ object MuteAction : AdminCmdAction {
     }
 
     override fun helperText(): String {
-        return """/mute <QQ号> 时长(秒)"""
+        return """/mute <QQ号> 时长, 单位:分钟"""
     }
 
     override suspend fun invoke(event: GroupMessageEvent, params: String) {
@@ -32,7 +32,7 @@ object MuteAction : AdminCmdAction {
 
     override suspend fun onInvoke(event: GroupMessageEvent, params: String) {
         val paramsList = params.split(" ")
-        val second: Int
+        val minutes: Int
         val qq = paramsList[0].toLongOrNull()
 
         if (qq == null) {
@@ -41,19 +41,19 @@ object MuteAction : AdminCmdAction {
         }
 
         if (paramsList.size < 2) {
-            event.quoteReply("未填写时长参数, 默认10分钟")
-            second = 60 * 10
+            event.quoteReply("未填写时长参数, 默认5分钟")
+            minutes = 5
         } else {
             val s = paramsList[1].toIntOrNull()
-            if (s == null) {
-                event.quoteReply("未填写时长参数, 默认10分钟")
-                second = 60 * 10
+            minutes = if (s == null) {
+                event.quoteReply("未填写时长参数, 默认5分钟")
+                5
             } else {
-                second = s
+                s
             }
         }
 
-        val target = event.group.members.get(qq)
+        val target = event.group.members[qq]
         if (target.isOperator()) {
             val msg = buildMessageChain {
                 add("你想要禁言的")
@@ -64,7 +64,7 @@ object MuteAction : AdminCmdAction {
             return
         }
 
-        target.mute(second)
+        target.mute(minutes * 60)
         event.quoteReply(buildMessageChain {
             add("${target.nick}(${target.id}) 禁言完成")
         })
@@ -86,7 +86,7 @@ object MuteAction : AdminCmdAction {
         }
 
         // 找到时间消息体
-        val second =
+        val minutes =
             try {
                 event.message.toMutableList()
                     .filterIsInstance<PlainText>()
@@ -95,19 +95,19 @@ object MuteAction : AdminCmdAction {
                         removeAt(0)
                     }
                     .firstOrNull()?.content?.trim()?.toIntOrNull()
-                    ?: 600
+                    ?: 5
             } catch (e: Exception) {
-                60 * 10
+                5
             }
 
-        println("second = $second")
+        println("minutes = $minutes")
 
         val text = members.joinToString {
             "${it.display}(${it.target})"
         }
 
         for (member in members) {
-            event.group.members[member.target].mute(second)
+            event.group.members[member.target].mute(minutes * 60)
         }
 
         event.quoteReply(buildMessageChain {
