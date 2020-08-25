@@ -1,6 +1,7 @@
 package actions.group.cmd.admin
 
 import net.mamoe.mirai.message.GroupMessageEvent
+import net.mamoe.mirai.message.data.content
 
 /**
  * 开关灯
@@ -21,7 +22,7 @@ object MuteAllAction : AdminCmdAction {
     }
 
     override suspend fun onInvoke(event: GroupMessageEvent, params: String) {
-        when (params.trim().toLowerCase()) {
+        when (event.message.content.trim().toLowerCase()) {
             "/开灯" -> {
                 event.group.settings.isMuteAll = false
                 event.reply("已开灯")
@@ -40,9 +41,6 @@ object MuteAllAction : AdminCmdAction {
             "n" -> {
                 event.group.settings.isMuteAll = false
                 event.reply("已开灯")
-            }
-            else -> {
-                event.reply("不支持这个命令")
             }
         }
     }
