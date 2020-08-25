@@ -1,10 +1,13 @@
 import actions.group.HelpAction
+import actions.group.admin.MuteAction
 import actions.group.admin.MuteAllAction
+import actions.group.admin.UnMuteAction
 import actions.group.at.AutoReplyAction
 import actions.group.on.OnSenderTalkAction
 import actions.group.starts.GirlAction
 import actions.group.starts.dart.PubCmdAction
 import actions.group.starts.weather.WeatherAction
+import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.long
 import net.mamoe.mirai.Bot
@@ -49,6 +52,8 @@ private val cmdActions = arrayOf(
     WeatherAction,
     GirlAction,
     MuteAllAction,
+    MuteAction,
+    UnMuteAction,
 )
 
 private val atActions = arrayOf(

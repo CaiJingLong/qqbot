@@ -34,18 +34,18 @@ object PubCmdAction : CmdAction {
             val platforms = HTMLParser.getElementsByClass(p.html(), "-pub-tag-badge")
 
             val s = StringBuilder()
-            s.appendln("包名 ：$name")
-            s.appendln("链接 ：$link")
-            s.appendln("喜欢 ：${scores[0].text()}")
-            s.appendln("Pub Point ：${scores[1].text()}/110")
-            s.appendln("流行度 ：${scores[2].text()}")
-            s.appendln("描述 ：$description")
-            s.appendln("版本 ：$version")
-            s.appendln("时间 ：$time")
+            s.appendLine("包名 ：$name")
+            s.appendLine("链接 ：$link")
+            s.appendLine("喜欢 ：${scores[0].text()}")
+            s.appendLine("Pub Point ：${scores[1].text()}/110")
+            s.appendLine("流行度 ：${scores[2].text()}")
+            s.appendLine("描述 ：$description")
+            s.appendLine("版本 ：$version")
+            s.appendLine("时间 ：$time")
             platforms.map {
                 val main = HTMLParser.getElementsByClass(it.html(), "tag-badge-main")
                 val sub = HTMLParser.getElementsByClass(it.html(), "tag-badge-sub")
-                s.appendln("${main[0].text()} ：${sub.text()}")
+                s.appendLine("${main[0].text()} ：${sub.text()}")
             }
             event.reply(s.trim().toString())
         }

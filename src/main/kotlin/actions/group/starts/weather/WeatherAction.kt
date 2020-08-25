@@ -28,6 +28,7 @@ object WeatherAction : CmdAction {
 
     private val map = HashMap<String, Long>()
 
+    @UnstableDefault
     private fun loadJson() {
         if (isLoad) {
             return

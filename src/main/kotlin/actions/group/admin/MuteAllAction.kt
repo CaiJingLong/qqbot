@@ -1,29 +1,19 @@
 package actions.group.admin
 
-import actions.interfaces.CmdAction
-import net.mamoe.mirai.contact.isOperator
 import net.mamoe.mirai.message.GroupMessageEvent
 
 /**
  * 开关灯
  */
-object MuteAllAction : CmdAction {
+object MuteAllAction : AdminCmdAction {
     override val prefix: String
         get() = "/muteAll"
 
     override fun helperText(): String {
-        return "$prefix: <y|n>, y对应关灯, n对应开灯"
+        return "$prefix: <y | n>, y对应关灯, n对应开灯, 只能由管理员发起"
     }
 
-    override suspend fun invoke(event: GroupMessageEvent, params: String) {
-        if (!event.sender.isOperator()) {
-            event.quoteReply("你没有权限")
-            return
-        }
-        if (!event.group.botPermission.isOperator()) {
-            event.reply("机器人没权限")
-            return
-        }
+    override suspend fun onInvoke(event: GroupMessageEvent, params: String) {
         when (params.trim().toLowerCase()) {
             "y" -> {
                 event.group.settings.isMuteAll = true
