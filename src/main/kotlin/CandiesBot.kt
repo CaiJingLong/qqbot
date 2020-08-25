@@ -3,6 +3,7 @@ import actions.group.cmd.admin.MuteAction
 import actions.group.cmd.admin.MuteAllAction
 import actions.group.cmd.admin.UnMuteAction
 import actions.group.at.AutoReplyAction
+import actions.group.cmd.admin.KickAction
 import actions.group.cmd.common.GirlAction
 import actions.group.cmd.common.weather.WeatherAction
 import kotlinx.serialization.json.Json
@@ -51,6 +52,7 @@ private val cmdActions = arrayOf(
     MuteAllAction,
     MuteAction,
     UnMuteAction,
+    KickAction,
 )
 
 private val atActions = arrayOf(
