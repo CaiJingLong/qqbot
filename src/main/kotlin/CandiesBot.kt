@@ -1,4 +1,5 @@
 import actions.group.HelpAction
+import actions.group.admin.MuteAllAction
 import actions.group.at.AutoReplyAction
 import actions.group.on.OnSenderTalkAction
 import actions.group.starts.GirlAction
@@ -47,6 +48,7 @@ private val cmdActions = arrayOf(
 //    PubCmdAction,
     WeatherAction,
     GirlAction,
+    MuteAllAction,
 )
 
 private val atActions = arrayOf(
