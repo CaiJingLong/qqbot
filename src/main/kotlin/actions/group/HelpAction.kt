@@ -21,7 +21,7 @@ object HelpAction : CmdAction {
         val sb = StringBuilder()
 
         sb.appendLine("以下为机器人使用帮助:")
-        sb.appendLine("/help 显示本帮助")
+        sb.appendLine("/h 显示本帮助")
         for (action in actions) {
             if (action != this) {
                 sb.appendLine(action.helperText())
