@@ -20,10 +20,11 @@ object HelpAction : CmdAction {
     override fun helperText(): String {
         val sb = StringBuilder()
 
-        sb.appendln("/help 显示本帮助")
+        sb.appendLine("以下为机器人使用帮助:")
+        sb.appendLine("/help 显示本帮助")
         for (action in actions) {
             if (action != this) {
-                sb.appendln(action.helperText())
+                sb.appendLine(action.helperText())
             }
         }
 
