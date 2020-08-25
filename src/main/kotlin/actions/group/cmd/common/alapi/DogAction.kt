@@ -9,6 +9,10 @@ import utils.moshi
 
 object DogAction : CmdAction {
 
+    override fun showHelperText(): Boolean {
+        return false
+    }
+
     override val prefix: String
         get() = "/dog"
 

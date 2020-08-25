@@ -9,6 +9,10 @@ import utils.moshi
 
 object SoulAction : CmdAction {
 
+    override fun showHelperText(): Boolean {
+        return false
+    }
+
     override val prefix: String
         get() = "/soul"
 

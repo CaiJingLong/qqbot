@@ -8,6 +8,10 @@ import utils.moshi
 
 object QinghuaAction : CmdAction {
 
+    override fun showHelperText(): Boolean {
+        return false
+    }
+
     override val prefix: String
         get() = "/qinghua"
 
