@@ -14,9 +14,13 @@ import net.mamoe.mirai.event.*
 import net.mamoe.mirai.join
 import utils.moshi
 import java.io.FileReader
+import java.lang.management.ManagementFactory
 
 
 suspend fun main() {
+    val name = ManagementFactory.getRuntimeMXBean().name
+    val pid = name.split("@").toTypedArray()[0]
+    println("当前进程名: $name, pid = $pid")
 
     val json = FileReader("config.json").use {
         val adapter = moshi.adapter(LoginConfig::class.java)
