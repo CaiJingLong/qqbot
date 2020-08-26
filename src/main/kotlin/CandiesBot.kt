@@ -6,11 +6,15 @@ import actions.group.cmd.admin.MuteAllAction
 import actions.group.cmd.admin.UnMuteAction
 import actions.group.cmd.common.GirlAction
 import actions.group.cmd.common.alapi.*
+import actions.group.on.GroupMuteAction
 import actions.group.on.TipChangeNickAction
+import actions.group.on.WelcomeAction
+import actions.interfaces.OnEventAction
 import entity.LoginConfig
 import net.mamoe.mirai.Bot
 import net.mamoe.mirai.alsoLogin
 import net.mamoe.mirai.event.*
+import net.mamoe.mirai.event.events.MemberJoinEvent
 import net.mamoe.mirai.join
 import utils.moshi
 import java.io.FileReader
@@ -116,12 +120,17 @@ fun Bot.messageDSL() {
         }
 
         always {
-//            OnSenderTalkAction.invoke(this)
-
             for (alwaysAction in alwaysActions) {
                 alwaysAction.invoke(this)
             }
         }
 
     }
+
+    subscribeAction(WelcomeAction)
+    subscribeAction(GroupMuteAction)
+}
+
+inline fun <reified T : Event> Bot.subscribeAction(action: OnEventAction<T>) {
+    subscribeAlways(action::invoke)
 }
