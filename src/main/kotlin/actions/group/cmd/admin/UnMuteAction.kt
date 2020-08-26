@@ -17,10 +17,12 @@ object UnMuteAction : AdminCmdAction {
         return listOf(
             "/解禁",
             "/放出来",
+            "/解",
+            "/解封",
         )
     }
 
-    override suspend fun onInvoke(event: GroupMessageEvent, params: String) {
+    override suspend fun onAdminInvoke(event: GroupMessageEvent, params: String) {
         val qq = params.toLongOrNull()
 
         if (qq == null) {

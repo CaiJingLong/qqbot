@@ -9,7 +9,7 @@ object PubCmdAction : CmdAction {
 
     override val prefix: String = "/pub"
 
-    override suspend fun invoke(event: GroupMessageEvent, params: String) {
+    override suspend fun onInvoke(event: GroupMessageEvent, params: String) {
         val pkgUrl = URL("https://pub.flutter-io.cn/packages?q=$params")
         val html = pkgUrl.readText()
         val packages = HTMLParser.getElementsByClass(html, "packages-item")

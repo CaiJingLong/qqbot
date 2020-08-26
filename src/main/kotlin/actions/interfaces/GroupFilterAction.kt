@@ -15,13 +15,34 @@ interface GroupFilterAction {
     val httpClient
         get() = Inner.httpClient
 
-    fun ids(): List<Long>
+    fun supportIds(): List<Long>? = null
+
+    /**
+     * 屏蔽指定的qq号(个人, 主要是为了机器人)
+     */
+    fun blockQQ(): List<Long>? = null
 
     suspend fun invoke(event: GroupMessageEvent) {
-        if (ids().contains(event.group.id)) {
-            onInvoke(event)
+        checkQQ(event) {
+            val supportIds = supportIds()
+            if (supportIds == null) {
+                onInvoke(event)
+                return
+            }
+            if (supportIds.contains(event.group.id)) {
+                onInvoke(event)
+            }
         }
     }
 
     suspend fun onInvoke(event: GroupMessageEvent)
+}
+
+inline fun GroupFilterAction.checkQQ(event: GroupMessageEvent, block: () -> Unit) {
+    val blockQQ = blockQQ()
+    if (blockQQ == null) {
+        block()
+    } else if (!blockQQ.contains(event.sender.id)) {
+        block()
+    }
 }

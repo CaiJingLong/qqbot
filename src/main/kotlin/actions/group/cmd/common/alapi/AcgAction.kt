@@ -14,7 +14,7 @@ import utils.OKHttp
 import utils.moshi
 import java.net.URL
 
-object AcgAction : CmdAction {
+object AcgAction : ALCmdAction {
 
     override fun showHelperText(): Boolean {
         return false
@@ -27,7 +27,7 @@ object AcgAction : CmdAction {
         return "/acg 来张acg图片"
     }
 
-    override suspend fun invoke(event: GroupMessageEvent, params: String) {
+    override suspend fun onInvoke(event: GroupMessageEvent, params: String) {
         val url = OKHttp.getLocationUrl("https://v1.alapi.cn/api/acg")
 //        val targetUrl = "$url!/both/500x500"
 

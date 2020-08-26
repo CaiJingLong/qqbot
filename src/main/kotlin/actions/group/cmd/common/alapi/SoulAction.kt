@@ -1,13 +1,11 @@
 package actions.group.cmd.common.alapi
 
-import actions.interfaces.CmdAction
-import entity.alapi.AlQinghua
 import entity.alapi.Soul
 import net.mamoe.mirai.message.GroupMessageEvent
 import utils.OKHttp
 import utils.moshi
 
-object SoulAction : CmdAction {
+object SoulAction : ALCmdAction {
 
     override fun showHelperText(): Boolean {
         return false
@@ -27,7 +25,7 @@ object SoulAction : CmdAction {
         return "/soul 心灵毒鸡汤"
     }
 
-    override suspend fun invoke(event: GroupMessageEvent, params: String) {
+    override suspend fun onInvoke(event: GroupMessageEvent, params: String) {
         val str = OKHttp.getString("https://v1.alapi.cn/api/soul")
         val adapter = moshi.adapter(Soul::class.java)
         val entity = adapter.fromJson(str)

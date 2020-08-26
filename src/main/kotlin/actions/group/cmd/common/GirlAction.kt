@@ -28,7 +28,11 @@ object GirlAction : CmdAction {
         410496936,
     )
 
-    override suspend fun invoke(event: GroupMessageEvent, params: String) {
+    override suspend fun onInvoke(event: GroupMessageEvent, params: String) {
+        if (!allowList.contains(event.sender.id)) {
+            return
+        }
+
         val url = try {
             val response = httpClient.get<String>("https://gank.io/api/v2/random/category/Girl/type/Girl/count/1")
 
@@ -37,10 +41,6 @@ object GirlAction : CmdAction {
             girl?.data?.firstOrNull()?.url
                 ?: return
         } catch (e: Exception) {
-            return
-        }
-
-        if (!allowList.contains(event.sender.id)) {
             return
         }
 

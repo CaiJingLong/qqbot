@@ -8,7 +8,7 @@ import net.mamoe.mirai.message.data.At
  * 踢人
  */
 object KickAction : AdminCmdAction {
-    override suspend fun onInvoke(event: GroupMessageEvent, params: String) {
+    override suspend fun onAdminInvoke(event: GroupMessageEvent, params: String) {
         var targets = event.message
             .filterIsInstance<At>()
             .map {

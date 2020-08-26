@@ -16,6 +16,9 @@ object MuteAction : AdminCmdAction {
             "/小黑屋",
             "/闭嘴",
             "/禁言",
+            "/封印",
+            "/封",
+            "/禁",
         )
     }
 
@@ -23,11 +26,11 @@ object MuteAction : AdminCmdAction {
         return """/mute <QQ号> 时长, 单位:分钟"""
     }
 
-    override suspend fun invoke(event: GroupMessageEvent, params: String) {
+    override suspend fun onAdminInvoke(event: GroupMessageEvent, params: String) {
         if (event.message.content.startsWith(MuteAllAction.prefix)) {
             return
         }
-        super.invoke(event, params)
+        super.onInvoke(event, params)
     }
 
     override suspend fun onInvoke(event: GroupMessageEvent, params: String) {

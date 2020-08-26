@@ -13,7 +13,7 @@ object HelpAction : CmdAction {
         actions.add(action)
     }
 
-    override suspend fun invoke(event: GroupMessageEvent, params: String) {
+    override suspend fun onInvoke(event: GroupMessageEvent, params: String) {
         event.reply(helperText())
     }
 

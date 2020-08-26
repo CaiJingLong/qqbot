@@ -16,7 +16,7 @@ import utils.moshi
 import utils.toBean
 import java.net.URL
 
-object WeiboHotAction : CmdAction {
+object WeiboHotAction : ALCmdAction {
 
     override val prefix: String
         get() = "/weiboHot"
@@ -31,7 +31,7 @@ object WeiboHotAction : CmdAction {
         )
     }
 
-    override suspend fun invoke(event: GroupMessageEvent, params: String) {
+    override suspend fun onInvoke(event: GroupMessageEvent, params: String) {
         val url = OKHttp.getString("https://v1.alapi.cn/api/new/wbtop")
         val word = url.toBean<WeiboHotWord>() ?: return
         val msg = word.data.map {

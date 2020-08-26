@@ -6,7 +6,7 @@ import net.mamoe.mirai.message.GroupMessageEvent
 import utils.OKHttp
 import utils.moshi
 
-object QinghuaAction : CmdAction {
+object QinghuaAction : ALCmdAction {
 
     override fun showHelperText(): Boolean {
         return false
@@ -26,7 +26,7 @@ object QinghuaAction : CmdAction {
         return "/qinghua 土味情话"
     }
 
-    override suspend fun invoke(event: GroupMessageEvent, params: String) {
+    override suspend fun onInvoke(event: GroupMessageEvent, params: String) {
         val str = OKHttp.getString("https://v1.alapi.cn/api/qinghua")
         val adapter = moshi.adapter(AlQinghua::class.java)
         val entity = adapter.fromJson(str)

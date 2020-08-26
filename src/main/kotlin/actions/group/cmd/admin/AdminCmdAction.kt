@@ -6,7 +6,7 @@ import net.mamoe.mirai.message.GroupMessageEvent
 
 interface AdminCmdAction : CmdAction {
 
-    override suspend fun invoke(event: GroupMessageEvent, params: String) {
+    override suspend fun onInvoke(event: GroupMessageEvent, params: String) {
         if (!event.sender.isOperator()) {
             event.quoteReply("你不是管理员或群主")
             return
@@ -15,8 +15,8 @@ interface AdminCmdAction : CmdAction {
             event.reply("机器人没管理权限")
             return
         }
-        onInvoke(event, params)
+        onAdminInvoke(event, params)
     }
 
-    suspend fun onInvoke(event: GroupMessageEvent, params: String)
+    suspend fun onAdminInvoke(event: GroupMessageEvent, params: String)
 }

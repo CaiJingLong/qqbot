@@ -21,7 +21,7 @@ object MuteAllAction : AdminCmdAction {
         return "$prefix: <y | n>, y对应关灯, n对应开灯, 只能由管理员发起"
     }
 
-    override suspend fun onInvoke(event: GroupMessageEvent, params: String) {
+    override suspend fun onAdminInvoke(event: GroupMessageEvent, params: String) {
         when (event.message.content.trim().toLowerCase()) {
             "/开灯" -> {
                 event.group.settings.isMuteAll = false

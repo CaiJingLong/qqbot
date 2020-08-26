@@ -9,7 +9,7 @@ import kotlin.random.Random
  * 自动回复
  */
 object AutoReplyAction : GroupFilterAction {
-    override fun ids(): List<Long> {
+    override fun supportIds(): List<Long>? {
         return listOf(906936101, 656238669)
     }
 

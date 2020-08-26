@@ -7,7 +7,7 @@ import net.mamoe.mirai.message.GroupMessageEvent
 import utils.OKHttp
 import utils.moshi
 
-object DogAction : CmdAction {
+object DogAction : ALCmdAction {
 
     override fun showHelperText(): Boolean {
         return false
@@ -27,7 +27,7 @@ object DogAction : CmdAction {
         return "/dog 舔狗日记"
     }
 
-    override suspend fun invoke(event: GroupMessageEvent, params: String) {
+    override suspend fun onInvoke(event: GroupMessageEvent, params: String) {
         val str = OKHttp.getString("https://v1.alapi.cn/api/dog")
         val adapter = moshi.adapter(Dog::class.java)
         val entity = adapter.fromJson(str)

@@ -8,7 +8,7 @@ import okhttp3.HttpUrl
 import utils.OKHttp
 import utils.toBean
 
-object WeatherAction : CmdAction {
+object WeatherAction : ALCmdAction {
     override val prefix: String
         get() = "/天气"
 
@@ -16,7 +16,7 @@ object WeatherAction : CmdAction {
         return "/天气 城市"
     }
 
-    override suspend fun invoke(event: GroupMessageEvent, params: String) {
+    override suspend fun onInvoke(event: GroupMessageEvent, params: String) {
         if (params.trim().isEmpty()) {
             event.quoteReply("城市是必填项")
             return

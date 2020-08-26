@@ -6,6 +6,7 @@ import actions.group.cmd.admin.MuteAllAction
 import actions.group.cmd.admin.UnMuteAction
 import actions.group.cmd.common.GirlAction
 import actions.group.cmd.common.alapi.*
+import actions.group.on.TipChangeNickAction
 import entity.LoginConfig
 import net.mamoe.mirai.Bot
 import net.mamoe.mirai.alsoLogin
@@ -55,7 +56,7 @@ private val cmdActions = arrayOf(
     QinghuaAction,
     DogAction,
     AcgAction,
-    WeiboHotAction,
+//    WeiboHotAction,
 
     /// 管理相关的
     MuteAllAction,
@@ -66,6 +67,10 @@ private val cmdActions = arrayOf(
 
 private val atActions = arrayOf(
     AutoReplyAction
+)
+
+private val alwaysActions = arrayOf(
+    TipChangeNickAction(),
 )
 
 /**
@@ -108,6 +113,10 @@ fun Bot.messageDSL() {
 
         always {
 //            OnSenderTalkAction.invoke(this)
+
+            for (alwaysAction in alwaysActions) {
+                alwaysAction.invoke(this)
+            }
         }
 
     }
