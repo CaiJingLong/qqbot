@@ -1,4 +1,4 @@
-package actions.group.on
+package actions.group.on.events
 
 import actions.interfaces.OnEventAction
 import net.mamoe.mirai.event.events.GroupMuteAllEvent

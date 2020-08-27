@@ -3,10 +3,11 @@ package actions.interfaces
 import io.ktor.client.HttpClient
 import net.mamoe.mirai.message.GroupMessageEvent
 
+
 /**
  * 只在某些群内才有效的action
  */
-interface GroupFilterAction {
+interface GroupFilterAction : GroupAction {
 
     companion object Inner {
         val httpClient = HttpClient()
@@ -24,13 +25,15 @@ interface GroupFilterAction {
 
     suspend fun invoke(event: GroupMessageEvent) {
         checkQQ(event) {
-            val supportIds = supportIds()
-            if (supportIds == null) {
-                onInvoke(event)
-                return
-            }
-            if (supportIds.contains(event.group.id)) {
-                onInvoke(event)
+            runGroup(event.group.id) {
+                val supportIds = supportIds()
+                if (supportIds == null) {
+                    onInvoke(event)
+                    return
+                }
+                if (supportIds.contains(event.group.id)) {
+                    onInvoke(event)
+                }
             }
         }
     }

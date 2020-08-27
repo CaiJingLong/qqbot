@@ -6,15 +6,15 @@ import actions.group.cmd.admin.MuteAllAction
 import actions.group.cmd.admin.UnMuteAction
 import actions.group.cmd.common.GirlAction
 import actions.group.cmd.common.alapi.*
-import actions.group.on.GroupMuteAction
+import actions.group.on.events.GroupMuteAction
+import actions.group.on.KeywordAction
 import actions.group.on.TipChangeNickAction
-import actions.group.on.WelcomeAction
+import actions.group.on.events.WelcomeAction
 import actions.interfaces.OnEventAction
 import entity.LoginConfig
 import net.mamoe.mirai.Bot
 import net.mamoe.mirai.alsoLogin
 import net.mamoe.mirai.event.*
-import net.mamoe.mirai.event.events.MemberJoinEvent
 import net.mamoe.mirai.join
 import utils.moshi
 import java.io.FileReader
@@ -101,7 +101,6 @@ private fun registerActions() {
  * @see MessageSubscribersBuilder
  */
 fun Bot.messageDSL() {
-
     subscribeGroupMessages {
         for (action in HelpAction.actions) {
             startsWith(action.prefix, onEvent = action::invoke)
@@ -123,6 +122,8 @@ fun Bot.messageDSL() {
             for (alwaysAction in alwaysActions) {
                 alwaysAction.invoke(this)
             }
+
+            KeywordAction.invoke(this)
         }
 
     }
