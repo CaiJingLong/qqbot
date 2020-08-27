@@ -30,10 +30,6 @@ object MuteAction : AdminCmdAction {
         if (event.message.content.startsWith(MuteAllAction.prefix)) {
             return
         }
-        super.onInvoke(event, params)
-    }
-
-    override suspend fun onInvoke(event: GroupMessageEvent, params: String) {
         val paramsList = params.split(" ")
         val minutes: Int
         val qq = paramsList[0].toLongOrNull()

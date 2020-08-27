@@ -8,11 +8,9 @@ interface AdminCmdAction : CmdAction {
 
     override suspend fun onInvoke(event: GroupMessageEvent, params: String) {
         if (!event.sender.isOperator()) {
-            event.quoteReply("你不是管理员或群主")
             return
         }
         if (!event.group.botPermission.isOperator()) {
-            event.reply("机器人没管理权限")
             return
         }
         onAdminInvoke(event, params)

@@ -3,6 +3,7 @@ package qqbot.actions.group.at
 import qqbot.actions.interfaces.GroupFilterAction
 import io.ktor.client.request.get
 import net.mamoe.mirai.message.GroupMessageEvent
+import qqbot.utils.Throttle
 import kotlin.random.Random
 
 /**
@@ -13,6 +14,8 @@ object AutoReplyAction : GroupFilterAction {
         return listOf(906936101, 656238669)
     }
 
+    private val throttle = Throttle()
+
     private val types = listOf(
         "soup",
         "zha",
@@ -21,9 +24,12 @@ object AutoReplyAction : GroupFilterAction {
     )
 
     override suspend fun onInvoke(event: GroupMessageEvent) {
-        val i = Random.nextInt(1000) % types.count()
-        val type = types[i]
-        val body = httpClient.get<String>("https://api.uixsj.cn/hitokoto/get?type=$type")
-        event.quoteReply(body)
+        throttle.run {
+            val i = Random.nextInt(1000) % types.count()
+            val type = types[i]
+            val body = httpClient.get<String>("https://api.uixsj.cn/hitokoto/get?type=$type")
+            event.quoteReply(body)
+        }
+
     }
 }

@@ -22,19 +22,23 @@ class TipChangeNickAction : GroupFilterAction {
         )
     }
 
-    private val regex = Regex(".+\\|.+\\|.+")
+    private val regex = Regex(".+[|｜].+[|｜].+")
 
     override suspend fun onInvoke(event: GroupMessageEvent) {
         if (event.sender.permission.isOperator()) { // 面对管理员, 直接怂
             return
         }
 
+        if (!event.group.botPermission.isOperator()) {
+            return
+        }
+
         val nick = event.sender.nameCardOrNick
         if (!regex.matches(nick)) {
             event.quoteReply(
-                """不改名字就想说话，给👴好好按照“昵称|城市|技术栈|”改名！"""
+                """不改名字就想说话，给👴好好按照“昵称|城市|技术栈”改名！"""
             )
-            if (event.permission.isOperator()) {
+            if (event.group.botPermission.isOperator()) {
                 event.sender.mute(1)
                 delay(1000 * 15) // 15秒后解封
                 event.sender.unmute()
