@@ -2,6 +2,7 @@ package qqbot.actions.group
 
 import qqbot.actions.interfaces.CmdAction
 import net.mamoe.mirai.message.GroupMessageEvent
+import net.mamoe.mirai.message.data.content
 
 object HelpAction : CmdAction {
 
@@ -14,7 +15,9 @@ object HelpAction : CmdAction {
     }
 
     override suspend fun onInvoke(event: GroupMessageEvent, params: String) {
-        event.reply(helperText())
+        if (event.message.content.trim() == prefix) {
+            event.reply(helperText())
+        }
     }
 
     override fun helperText(): String {

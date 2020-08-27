@@ -2,13 +2,13 @@ package qqbot
 
 import net.mamoe.mirai.Bot
 import net.mamoe.mirai.alsoLogin
+import net.mamoe.mirai.closeAndJoin
 import net.mamoe.mirai.event.*
 import net.mamoe.mirai.join
 import qqbot.actions.group.HelpAction
 import qqbot.actions.group.at.AutoReplyAction
 import qqbot.actions.group.cmd.admin.*
 import qqbot.actions.group.cmd.common.GirlAction
-import qqbot.actions.group.cmd.common.TestSendImage
 import qqbot.actions.group.cmd.common.alapi.*
 import qqbot.actions.group.on.KeywordAction
 import qqbot.actions.group.on.TipChangeNickAction
@@ -23,6 +23,7 @@ import qqbot.utils.moshi
 import java.io.FileReader
 import java.lang.management.ManagementFactory
 
+lateinit var bot: Bot
 
 suspend fun main() {
     val name = ManagementFactory.getRuntimeMXBean().name
@@ -32,6 +33,14 @@ suspend fun main() {
     println("db version: ${db.version}, url = ${db.url}")
     initDb()
 
+    launchBot()
+}
+
+suspend fun relaunchBot() {
+    launchBot()
+}
+
+private suspend fun launchBot() {
     val json = FileReader("config.json").use {
         val adapter = moshi.adapter(LoginConfig::class.java)
         adapter.fromJson(it.readText())
@@ -42,14 +51,16 @@ suspend fun main() {
     checkNotNull(qq)
     checkNotNull(password)
 
-    val bot = Bot( // JVM 下也可以不写 `QQAndroid.` 引用顶层函数
+    bot = Bot( // JVM 下也可以不写 `QQAndroid.` 引用顶层函数
         qq,
         password
     ) {
         // 覆盖默认的配置
         fileBasedDeviceInfo("device.json") // 使用 "device.json" 保存设备信息
         // networkLoggerSupplier = { SilentLogger } // 禁用网络层输出
-    }.alsoLogin()
+    }
+
+    bot.alsoLogin()
 
     registerActions()
 
@@ -78,6 +89,7 @@ private val cmdActions = arrayOf(
     MuteAction,
     UnMuteAction,
     KickAction,
+    LoginAction,
 //    DenyAction, // 有问题, 暂时先不用, 等1.3.0
 )
 
