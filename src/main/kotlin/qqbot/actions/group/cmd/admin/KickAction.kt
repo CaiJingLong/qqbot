@@ -9,46 +9,31 @@ import net.mamoe.mirai.message.data.At
  */
 object KickAction : AdminCmdAction {
     override suspend fun onAdminInvoke(event: GroupMessageEvent, params: String) {
+        val group = event.bot.getGroup(event.group.id)
+
         var targets = event.message
             .filterIsInstance<At>()
-            .map {
-                event.group[it.target]
+            .mapNotNull {
+                group.getOrNull(it.target)
             }
             .filter {
                 !it.isOperator()
             }
 
         if (targets.isEmpty()) { // 空的情况下, 继续检查 params 参数
-            val unfind = ArrayList<Long>()
-
             targets = params.split(" ")
-                .filter {
-                    it.toLongOrNull() != null
-                }.map {
-                    it.toLong()
-                }.filter {
-                    try {
-                        event.group[it]
-                        true
-                    } catch (e: Exception) {
-                        unfind.add(it)
-                        false
-                    }
-                }.map {
-                    event.group[it]
+                .mapNotNull {
+                    it.trim().toLongOrNull()
                 }
-
-            if (unfind.isNotEmpty()) {
-                event.reply("${unfind.joinToString()} 未找到")
-            }
+                .mapNotNull {
+                    event.group.getOrNull(it)
+                }
         }
 
         if (targets.isEmpty()) {
             event.quoteReply("可踢的人是空的")
             return
         }
-
-        val group = event.bot.getGroup(event.group.id)
 
         val qqText = targets.joinToString {
             "${it.nick}(${it.id})"

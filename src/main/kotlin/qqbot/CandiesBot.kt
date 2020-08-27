@@ -8,6 +8,7 @@ import qqbot.actions.group.HelpAction
 import qqbot.actions.group.at.AutoReplyAction
 import qqbot.actions.group.cmd.admin.*
 import qqbot.actions.group.cmd.common.GirlAction
+import qqbot.actions.group.cmd.common.TestSendImage
 import qqbot.actions.group.cmd.common.alapi.*
 import qqbot.actions.group.on.KeywordAction
 import qqbot.actions.group.on.TipChangeNickAction
@@ -16,6 +17,7 @@ import qqbot.actions.group.on.events.JoinHandleAction
 import qqbot.actions.group.on.events.WelcomeAction
 import qqbot.actions.interfaces.OnEventAction
 import qqbot.db.db
+import qqbot.db.initDb
 import qqbot.entity.LoginConfig
 import qqbot.utils.moshi
 import java.io.FileReader
@@ -26,7 +28,9 @@ suspend fun main() {
     val name = ManagementFactory.getRuntimeMXBean().name
     val pid = name.split("@").toTypedArray()[0]
     println("当前进程名: $name, pid = $pid")
+
     println("db version: ${db.version}, url = ${db.url}")
+    initDb()
 
     val json = FileReader("config.json").use {
         val adapter = moshi.adapter(LoginConfig::class.java)
@@ -66,6 +70,7 @@ private val cmdActions = arrayOf(
     QinghuaAction,
     DogAction,
     AcgAction,
+//    TestSendImage,
 //    WeiboHotAction,
 
     /// 管理相关的
@@ -73,7 +78,7 @@ private val cmdActions = arrayOf(
     MuteAction,
     UnMuteAction,
     KickAction,
-    DenyAction,
+//    DenyAction, // 有问题, 暂时先不用, 等1.3.0
 )
 
 private val atActions = arrayOf(
