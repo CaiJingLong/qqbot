@@ -9,7 +9,7 @@ import net.mamoe.mirai.message.GroupMessageEvent
 
 class TipChangeNickAction : GroupFilterAction {
 
-    override fun supportIds(): List<Long>? {
+    override fun supportGroupIds(): List<Long>? {
         return Constants.onlyBig
     }
 

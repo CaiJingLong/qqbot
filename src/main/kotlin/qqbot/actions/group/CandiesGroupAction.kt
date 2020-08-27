@@ -4,10 +4,10 @@ import qqbot.actions.interfaces.GroupFilterAction
 
 interface CandiesGroupAction : GroupFilterAction {
 
-    override fun supportIds(): List<Long>? {
+    override fun supportGroupIds(): List<Long>? {
         return listOf(
             906936101,
-            656238669
+            656238669,
         )
     }
 }

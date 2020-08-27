@@ -2,7 +2,7 @@ package qqbot.utils
 
 import kotlinx.coroutines.delay
 
-class Throttle {
+class Throttle(val time: Long = 5000L) {
 
     var isRunning = false
 
@@ -12,7 +12,7 @@ class Throttle {
         }
         isRunning = true
         action()
-        delay(5000)
+        delay(time)
         isRunning = false
     }
 

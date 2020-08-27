@@ -16,7 +16,6 @@ interface GroupFilterAction : GroupAction {
     val httpClient
         get() = Inner.httpClient
 
-    fun supportIds(): List<Long>? = null
 
     /**
      * 屏蔽指定的qq号(个人, 主要是为了机器人)
@@ -26,14 +25,7 @@ interface GroupFilterAction : GroupAction {
     suspend fun invoke(event: GroupMessageEvent) {
         checkQQ(event) {
             runGroup(event.group.id) {
-                val supportIds = supportIds()
-                if (supportIds == null) {
-                    onInvoke(event)
-                    return
-                }
-                if (supportIds.contains(event.group.id)) {
-                    onInvoke(event)
-                }
+                onInvoke(event)
             }
         }
     }

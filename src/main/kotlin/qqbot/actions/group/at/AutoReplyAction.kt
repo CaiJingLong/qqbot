@@ -3,6 +3,7 @@ package qqbot.actions.group.at
 import qqbot.actions.interfaces.GroupFilterAction
 import io.ktor.client.request.get
 import net.mamoe.mirai.message.GroupMessageEvent
+import qqbot.constants.Constants
 import qqbot.utils.Throttle
 import kotlin.random.Random
 
@@ -10,11 +11,11 @@ import kotlin.random.Random
  * 自动回复
  */
 object AutoReplyAction : GroupFilterAction {
-    override fun supportIds(): List<Long>? {
-        return listOf(906936101, 656238669)
+    override fun supportGroupIds(): List<Long>? {
+        return Constants.onlyBig
     }
 
-    private val throttle = Throttle()
+    private val throttle = Throttle(10000)
 
     private val types = listOf(
         "soup",
