@@ -9,6 +9,7 @@ import qqbot.actions.group.HelpAction
 import qqbot.actions.group.at.AutoReplyAction
 import qqbot.actions.group.cmd.admin.*
 import qqbot.actions.group.cmd.common.GirlAction
+import qqbot.actions.group.cmd.common.ShowImageAction
 import qqbot.actions.group.cmd.common.alapi.*
 import qqbot.actions.group.on.KeywordAction
 import qqbot.actions.group.on.TipChangeNickAction
@@ -81,6 +82,7 @@ private val cmdActions = arrayOf(
     QinghuaAction,
     DogAction,
     AcgAction,
+    ShowImageAction,
 //    TestSendImage,
 //    WeiboHotAction,
 

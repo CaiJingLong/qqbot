@@ -1,8 +1,9 @@
 package qqbot.actions.group.cmd.common.alapi
 
-import qqbot.entity.alapi.Weather
 import io.ktor.http.*
 import net.mamoe.mirai.message.GroupMessageEvent
+import qqbot.constants.Constants
+import qqbot.entity.alapi.Weather
 import qqbot.utils.OKHttp
 import qqbot.utils.toBean
 
@@ -12,6 +13,10 @@ object WeatherAction : ALCmdAction {
 
     override fun helperText(): String {
         return "/天气 城市"
+    }
+
+    override fun supportGroupIds(): List<Long>? {
+        return Constants.all
     }
 
     override suspend fun onInvoke(event: GroupMessageEvent, params: String) {
