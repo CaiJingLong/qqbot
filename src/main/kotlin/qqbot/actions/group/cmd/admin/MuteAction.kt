@@ -35,10 +35,12 @@ object MuteAction : AdminCmdAction {
             return // 管理员不能自我禁言
         }
         val time = event.message
-            .asSequence()
             .filterIsInstance<PlainText>()
-            .filter { it.content.trim().isNotEmpty() }
-            .map { it.content }
+            .joinToString(" ") {
+                it.content
+            }
+            .split(" ")
+            .filter { it.trim().isNotEmpty() }
             .mapNotNull {
                 it.toIntOrNull()
             }.firstOrNull() ?: 10
