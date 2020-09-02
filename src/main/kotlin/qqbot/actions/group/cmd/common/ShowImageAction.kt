@@ -17,6 +17,12 @@ object ShowImageAction : CmdAction {
         return "/showImage 图片id"
     }
 
+    override fun prefixAlias(): List<String> {
+        return listOf(
+            "/sendImage"
+        )
+    }
+
     override fun showHelperText(): Boolean {
         return false
     }
