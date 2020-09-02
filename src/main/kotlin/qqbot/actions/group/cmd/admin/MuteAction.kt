@@ -45,7 +45,7 @@ object MuteAction : AdminCmdAction {
 
         event.sender.mute(time * 60)
 
-        event.reply("实现你的小愿望, 请休息吧")
+        event.quoteReply("实现你的小愿望, 请休息吧")
     }
 
     override suspend fun onAdminInvoke(event: GroupMessageEvent, params: String) {
