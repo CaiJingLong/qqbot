@@ -11,7 +11,7 @@ data class SearchResult(
         val name: String,
         val full_name: String,
         val html_url: String,
-        val description: String,
+        val description: String?,
         val stargazers_count: Int,
         val watchers_count: Int,
         val language: String?,
