@@ -23,7 +23,29 @@ object MuteAction : AdminCmdAction {
     }
 
     override fun helperText(): String {
-        return """/mute <QQ号> 时长, 单位:分钟"""
+        return """/mute <QQ号> 时长, 单位:分钟
+            |友情提示: 如果不是管理员使用此功能, 会把自己禁言
+        """.trimMargin()
+    }
+
+    override suspend fun onNormalUserInvoke(event: GroupMessageEvent, params: String) {
+        super.onNormalUserInvoke(event, params)
+        // 希望自我禁言的人
+        if (event.sender.isOperator()) {
+            return // 管理员不能自我禁言
+        }
+        val time = event.message
+            .asSequence()
+            .filterIsInstance<PlainText>()
+            .filter { it.content.trim().isNotEmpty() }
+            .map { it.content }
+            .mapNotNull {
+                it.toIntOrNull()
+            }.firstOrNull() ?: 10
+
+        event.sender.mute(time * 60)
+
+        event.reply("实现你的小愿望, 请休息吧")
     }
 
     override suspend fun onAdminInvoke(event: GroupMessageEvent, params: String) {

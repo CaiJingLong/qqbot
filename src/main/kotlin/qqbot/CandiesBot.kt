@@ -2,7 +2,6 @@ package qqbot
 
 import net.mamoe.mirai.Bot
 import net.mamoe.mirai.alsoLogin
-import net.mamoe.mirai.closeAndJoin
 import net.mamoe.mirai.event.*
 import net.mamoe.mirai.join
 import qqbot.actions.group.HelpAction
@@ -11,6 +10,7 @@ import qqbot.actions.group.cmd.admin.*
 import qqbot.actions.group.cmd.common.GirlAction
 import qqbot.actions.group.cmd.common.ShowImageAction
 import qqbot.actions.group.cmd.common.alapi.*
+import qqbot.actions.group.cmd.common.github.GithubSearchAction
 import qqbot.actions.group.on.KeywordAction
 import qqbot.actions.group.on.TipChangeNickAction
 import qqbot.actions.group.on.events.GroupMuteAction
@@ -41,13 +41,15 @@ suspend fun relaunchBot() {
     launchBot()
 }
 
+lateinit var loginConfig: LoginConfig
+
 private suspend fun launchBot() {
-    val json = FileReader("config.json").use {
+    loginConfig = FileReader("config.json").use {
         val adapter = moshi.adapter(LoginConfig::class.java)
         adapter.fromJson(it.readText())
     } ?: throw RuntimeException("登录失败")
 
-    val (qq, password) = json
+    val (qq, password) = loginConfig
 
     checkNotNull(qq)
     checkNotNull(password)
@@ -83,6 +85,7 @@ private val cmdActions = arrayOf(
     DogAction,
     AcgAction,
     ShowImageAction,
+    GithubSearchAction,
 //    TestSendImage,
 //    WeiboHotAction,
 

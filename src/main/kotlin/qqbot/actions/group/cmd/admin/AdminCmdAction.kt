@@ -7,14 +7,19 @@ import net.mamoe.mirai.message.GroupMessageEvent
 interface AdminCmdAction : CmdAction {
 
     override suspend fun onInvoke(event: GroupMessageEvent, params: String) {
-        if (!event.sender.isOperator()) {
+        if (!event.group.botPermission.isOperator()) {
             return
         }
-        if (!event.group.botPermission.isOperator()) {
+        if (!event.sender.isOperator()) {
+            onNormalUserInvoke(event, params)
             return
         }
         onAdminInvoke(event, params)
     }
 
+    suspend fun onNormalUserInvoke(event: GroupMessageEvent, params: String) {}
+
     suspend fun onAdminInvoke(event: GroupMessageEvent, params: String)
+
+
 }

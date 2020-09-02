@@ -3,6 +3,7 @@ package qqbot.actions.group.at
 import qqbot.actions.interfaces.GroupFilterAction
 import io.ktor.client.request.get
 import net.mamoe.mirai.message.GroupMessageEvent
+import net.mamoe.mirai.message.data.content
 import qqbot.constants.Constants
 import qqbot.utils.Throttle
 import kotlin.random.Random
