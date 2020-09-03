@@ -1,14 +1,16 @@
 package qqbot.actions.group.on.events
 
 import kotlinx.coroutines.delay
-import qqbot.actions.interfaces.OnEventAction
-import qqbot.constants.Constants
 import net.mamoe.mirai.event.events.MemberJoinEvent
 import net.mamoe.mirai.message.data.At
 import net.mamoe.mirai.message.data.buildMessageChain
+import net.mamoe.mirai.message.uploadAsImage
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
+import qqbot.actions.interfaces.OnEventAction
+import qqbot.constants.Constants
 import qqbot.db.table.DenyTable
+import java.io.File
 
 object WelcomeAction : OnEventAction<MemberJoinEvent> {
 
@@ -16,6 +18,8 @@ object WelcomeAction : OnEventAction<MemberJoinEvent> {
         if (!Constants.all.contains(event.group.id)) {
             return
         }
+
+
         event.group.sendMessage(
             buildMessageChain {
                 add(
@@ -27,6 +31,13 @@ object WelcomeAction : OnEventAction<MemberJoinEvent> {
                     |请尽快修改昵称格式为："昵称|城市|技术栈"，示例：「法的空间|上海|UWP」。未修改昵称要被禁言噢~⚠️"""
                         .trimMargin()
                 )
+
+                try {
+                    val welcomeImage = File("static/welcome.jpg").uploadAsImage(event.group)
+                    add(welcomeImage)
+                } catch (e: Exception) {
+                }
+
             }
         )
 //        checkDenyList(event) // TODO 等 1.3.0 再实装
