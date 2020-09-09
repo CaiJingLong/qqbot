@@ -1,10 +1,8 @@
 package qqbot.actions.group
 
 import net.mamoe.mirai.contact.isOperator
-import qqbot.actions.interfaces.CmdAction
 import net.mamoe.mirai.message.GroupMessageEvent
-import net.mamoe.mirai.message.data.content
-import qqbot.utils.Throttle
+import qqbot.actions.interfaces.CmdAction
 
 object HelpAction : CmdAction {
 
@@ -16,13 +14,9 @@ object HelpAction : CmdAction {
         actions.add(action)
     }
 
-    private val throttle = Throttle()
-
     override suspend fun onInvoke(event: GroupMessageEvent, params: String) {
-        throttle.run {
-            if (event.sender.isOperator() && event.message.content.trim() == prefix) {
-                event.reply(helperText())
-            }
+        if (event.sender.isOperator()) {
+            event.quoteReply(helperText())
         }
     }
 

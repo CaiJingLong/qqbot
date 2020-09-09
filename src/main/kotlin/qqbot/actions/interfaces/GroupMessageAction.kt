@@ -1,6 +1,6 @@
 package qqbot.actions.interfaces
 
-import io.ktor.client.HttpClient
+import io.ktor.client.*
 import net.mamoe.mirai.message.GroupMessageEvent
 
 /**
