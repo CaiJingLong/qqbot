@@ -20,4 +20,11 @@ object Constants {
     val onlyBig = listOf<Long>(
         bigGroupId
     )
+
+    val botQQ = listOf<Long>(
+        2300406668, // 小宝
+        3090077983, // 祖安
+        2357621290, // 小拉面
+        2854196310, // Q群管家
+    )
 }
