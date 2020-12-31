@@ -39,9 +39,7 @@ class TipChangeNickAction : GroupFilterAction {
                 """不改名字就想说话，给👴好好按照“昵称|城市|技术栈”改名！"""
             )
             if (event.group.botPermission.isOperator()) {
-                event.sender.mute(1)
-                delay(1000 * 15) // 15秒后解封
-                event.sender.unmute()
+                event.sender.mute(60) // 休息60秒
             }
         }
     }
